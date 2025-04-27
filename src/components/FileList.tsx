@@ -1,4 +1,3 @@
-
 import { Card } from '@/components/ui/card';
 
 interface File {
@@ -6,18 +5,38 @@ interface File {
   name: string;
   status: 'processing' | 'ready' | 'error';
   uploadedAt: string;
+  url?: string;
+}
+
+interface FileListProps {
+  onFileSelect?: (file: File | null) => void;
 }
 
 const mockFiles: File[] = [
-  { id: '1', name: 'Assignment 1.pdf', status: 'ready', uploadedAt: '2025-04-27' },
-  { id: '2', name: 'Notes.docx', status: 'processing', uploadedAt: '2025-04-27' },
+  { 
+    id: '1', 
+    name: 'Assignment 1.pdf', 
+    status: 'ready', 
+    uploadedAt: '2025-04-27',
+    url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+  },
+  { 
+    id: '2', 
+    name: 'Notes.docx', 
+    status: 'processing', 
+    uploadedAt: '2025-04-27'
+  },
 ];
 
-export const FileList = () => {
+export const FileList = ({ onFileSelect }: FileListProps) => {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
       {mockFiles.map((file) => (
-        <Card key={file.id} className="file-card">
+        <Card 
+          key={file.id} 
+          className="file-card"
+          onClick={() => onFileSelect?.(file)}
+        >
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-medium">{file.name}</h3>
